@@ -430,7 +430,7 @@
       }
     }
 
-    /* 음악 컨트롤 위젯 */
+    /* 음악 컨트롤 위젯 (초소형 재생 버튼 + 볼륨 슬라이더) */
     #music-widget {
       position: fixed;
       right: 18px;
@@ -438,11 +438,11 @@
       z-index: 999;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       background: #ffffff;
       border: 1.5px solid #f3c6e0;
       border-radius: 999px;
-      padding: 10px 16px;
+      padding: 6px 10px;
       box-shadow: 0 6px 18px rgba(180, 150, 200, 0.25);
       font-family: 'Noto Sans KR', sans-serif;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -453,15 +453,15 @@
     }
 
     #music-toggle {
-      width: 34px;
-      height: 34px;
-      min-width: 34px;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
       border-radius: 50%;
       border: none;
       cursor: pointer;
       background: linear-gradient(135deg, #f6a8c6, #9dc9ef);
       color: #ffffff;
-      font-size: 13px;
+      font-size: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -478,16 +478,16 @@
 
     #music-widget .vol-icon {
       color: #ad1457;
-      font-size: 13px;
-      width: 14px;
+      font-size: 10px;
+      width: 11px;
       text-align: center;
     }
 
     #music-volume {
       -webkit-appearance: none;
       appearance: none;
-      width: 74px;
-      height: 4px;
+      width: 46px;
+      height: 3px;
       border-radius: 4px;
       background: #f3c6e0;
       outline: none;
@@ -497,8 +497,8 @@
     #music-volume::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 13px;
-      height: 13px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ec4899;
       border: 2px solid #ffffff;
@@ -506,56 +506,22 @@
     }
 
     #music-volume::-moz-range-thumb {
-      width: 13px;
-      height: 13px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ec4899;
       border: 2px solid #ffffff;
       box-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
 
-    /* 힌트 말풍선: 위젯 실제 높이(약 58px) + 여백만큼 충분히 띄워서
-       버튼/슬라이더와 겹치지 않도록 함 */
-    #music-hint {
-      position: fixed;
-      right: 18px;
-      bottom: 84px;
-      z-index: 999;
-      background: #3e3240;
-      color: #fff;
-      font-size: 11.5px;
-      padding: 7px 14px;
-      border-radius: 10px;
-      white-space: nowrap;
-      opacity: 0.9;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    #music-hint::after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      right: 22px;
-      width: 10px;
-      height: 10px;
-      background: #3e3240;
-      transform: rotate(45deg);
-    }
-
     @media (max-width: 640px) {
       #music-widget {
         right: 12px;
         bottom: 12px;
-        padding: 8px 12px;
+        padding: 5px 8px;
       }
       #music-volume {
-        width: 56px;
-      }
-      #music-hint {
-        right: 12px;
-        bottom: 76px;
-        font-size: 11px;
+        width: 36px;
       }
     }
   </style>
@@ -789,45 +755,10 @@ b{font-weight:700;color:var(--ink)}
 #music-widget{
   right:20px!important;
   bottom:20px!important;
-  gap:9px!important;
-  background:rgba(23,21,26,.92)!important;
+  border-radius:999px!important;
   border:1px solid rgba(255,255,255,.12)!important;
-  border-radius:13px!important;
-  padding:7px 10px!important;
   box-shadow:0 12px 35px rgba(0,0,0,.2)!important;
-  backdrop-filter:blur(14px);
 }
-#music-toggle{
-  width:31px!important;height:31px!important;min-width:31px!important;
-  background:#fff!important;
-  color:var(--ink)!important;
-  font-size:11px!important;
-}
-#music-widget .vol-icon{color:#fff!important;font-size:10px!important}
-#music-volume{
-  width:64px!important;
-  background:#5c5660!important;
-}
-#music-volume::-webkit-slider-thumb{
-  width:11px!important;height:11px!important;
-  background:var(--pink)!important;
-  border:2px solid #17151a!important;
-}
-#music-volume::-moz-range-thumb{
-  width:11px!important;height:11px!important;
-  background:var(--pink)!important;
-  border:2px solid #17151a!important;
-}
-#music-hint{
-  right:20px!important;
-  bottom:72px!important;
-  background:var(--ink)!important;
-  border-radius:7px!important;
-  font-size:10px!important;
-  padding:6px 10px!important;
-  opacity:.9;
-}
-#music-hint::after{background:var(--ink)!important}
 
 /* MOBILE */
 @media(max-width:640px){
@@ -842,7 +773,6 @@ b{font-weight:700;color:var(--ink)}
   .schedule-table{font-size:10.5px!important}
   .schedule-table th,.schedule-table td{padding:11px 8px!important}
   #music-widget{right:12px!important;bottom:12px!important}
-  #music-hint{right:12px!important;bottom:65px!important}
 }
 
 /* reduced motion */
@@ -945,29 +875,10 @@ b{font-weight:700;color:var(--ink)}
 
 /* 음악 재생 UI: 검정색 없이 기존 파스텔 톤 */
 #music-widget{
-  background:rgba(255,255,255,.94) !important;
+  background:#ffffff !important;
   border:1.5px solid #f3c6e0 !important;
   border-radius:999px !important;
-  padding:9px 14px !important;
   box-shadow:0 6px 18px rgba(180,150,200,.22) !important;
-  backdrop-filter:blur(12px);
-}
-#music-toggle{
-  background:linear-gradient(135deg,#f6a8c6,#9dc9ef) !important;
-  color:#fff !important;
-  box-shadow:none !important;
-}
-#music-widget .vol-icon{color:#ad1457 !important}
-#music-volume{
-  background:#f3c6e0 !important;
-}
-#music-volume::-webkit-slider-thumb{
-  background:#ec4899 !important;
-  border:2px solid #fff !important;
-}
-#music-volume::-moz-range-thumb{
-  background:#ec4899 !important;
-  border:2px solid #fff !important;
 }
 
 /* 공지/정보 박스도 검정 없이 전체 톤 통일 */
@@ -1474,8 +1385,9 @@ b{font-weight:700;color:var(--ink)}
     </div>
   </div></div>
 
-<!-- 음악 컨트롤 위젯 -->
-<div id="music-hint">🔈 눌러서 음악 재생</div>
+<!-- 음악 플레이어: 화면에는 초소형 버튼+볼륨 위젯만 보이고, 실제 유튜브 영상은 숨김 처리 -->
+<div id="yt-player"></div>
+
 <div id="music-widget">
   <button id="music-toggle" title="재생/일시정지">
     <i class="fa-solid fa-play" id="music-icon"></i>
@@ -1488,19 +1400,15 @@ b{font-weight:700;color:var(--ink)}
 <script>
   /* =======================================================
      유튜브 배경음악 설정
-     - 아래 YOUTUBE_VIDEO_ID 자리에 원하는 노래의 유튜브 영상 ID를
-       넣어주세요. (예: https://www.youtube.com/watch?v=여기부분 )
      ======================================================= */
-  const YOUTUBE_VIDEO_ID = "WtDFlOxqu7ZC2-uL";
+  const YOUTUBE_VIDEO_ID = "0fBddiDc6c0";
 
   let ytPlayer;
   let isReady = false;
-  let userStarted = false;
 
   const toggleBtn = document.getElementById('music-toggle');
   const musicIcon = document.getElementById('music-icon');
   const volumeSlider = document.getElementById('music-volume');
-  const musicHint = document.getElementById('music-hint');
 
   function onYouTubeIframeAPIReady() {
     ytPlayer = new YT.Player('yt-player', {
@@ -1533,23 +1441,8 @@ b{font-weight:700;color:var(--ink)}
     musicIcon.classList.toggle('fa-pause', playing);
   }
 
-  // 방문자의 첫 클릭(화면 어디든) 시 음소거 해제 + 재생
-  window.addEventListener('click', function startAudioOnce() {
-    if (isReady && !userStarted) {
-      ytPlayer.unMute();
-      ytPlayer.setVolume(Number(volumeSlider.value));
-      ytPlayer.playVideo();
-      userStarted = true;
-      updateIcon(true);
-      musicHint.style.opacity = '0';
-      setTimeout(() => musicHint.remove(), 400);
-    }
-    window.removeEventListener('click', startAudioOnce);
-  });
-
-  // 재생/일시정지 버튼
-  toggleBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
+  // 재생/일시정지 버튼 (+ 처음 누르면 음소거 해제)
+  toggleBtn.addEventListener('click', function () {
     if (!isReady) return;
     const state = ytPlayer.getPlayerState();
     if (state === YT.PlayerState.PLAYING) {
@@ -1557,10 +1450,9 @@ b{font-weight:700;color:var(--ink)}
       updateIcon(false);
     } else {
       ytPlayer.unMute();
+      ytPlayer.setVolume(Number(volumeSlider.value));
       ytPlayer.playVideo();
-      userStarted = true;
       updateIcon(true);
-      musicHint.style.opacity = '0';
     }
   });
 
@@ -1570,12 +1462,11 @@ b{font-weight:700;color:var(--ink)}
       ytPlayer.setVolume(Number(this.value));
       if (Number(this.value) === 0) {
         ytPlayer.mute();
-      } else if (userStarted) {
+      } else {
         ytPlayer.unMute();
       }
     }
   });
-  volumeSlider.addEventListener('click', e => e.stopPropagation());
 </script>
 
 </body>
