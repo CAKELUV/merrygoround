@@ -514,6 +514,34 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
 
+    /* 힌트 말풍선: 위젯 위쪽에 살짝 띄워서 표시 */
+    #music-hint {
+      position: fixed;
+      right: 18px;
+      bottom: 58px;
+      z-index: 999;
+      background: #3e3240;
+      color: #fff;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      white-space: nowrap;
+      opacity: 0.9;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #music-hint::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      right: 20px;
+      width: 9px;
+      height: 9px;
+      background: #3e3240;
+      transform: rotate(45deg);
+    }
+
     @media (max-width: 640px) {
       #music-widget {
         right: 12px;
@@ -522,6 +550,11 @@
       }
       #music-volume {
         width: 36px;
+      }
+      #music-hint {
+        right: 12px;
+        bottom: 50px;
+        font-size: 10px;
       }
     }
   </style>
@@ -759,6 +792,10 @@ b{font-weight:700;color:var(--ink)}
   border:1px solid rgba(255,255,255,.12)!important;
   box-shadow:0 12px 35px rgba(0,0,0,.2)!important;
 }
+#music-hint{
+  right:20px!important;
+  bottom:56px!important;
+}
 
 /* MOBILE */
 @media(max-width:640px){
@@ -773,6 +810,7 @@ b{font-weight:700;color:var(--ink)}
   .schedule-table{font-size:10.5px!important}
   .schedule-table th,.schedule-table td{padding:11px 8px!important}
   #music-widget{right:12px!important;bottom:12px!important}
+  #music-hint{right:12px!important;bottom:48px!important}
 }
 
 /* reduced motion */
@@ -1388,6 +1426,7 @@ b{font-weight:700;color:var(--ink)}
 <!-- 음악 플레이어: 화면에는 초소형 버튼+볼륨 위젯만 보이고, 실제 유튜브 영상은 숨김 처리 -->
 <div id="yt-player"></div>
 
+<div id="music-hint">🔈 볼륨 조절 시 음악 재생</div>
 <div id="music-widget">
   <button id="music-toggle" title="재생/일시정지">
     <i class="fa-solid fa-play" id="music-icon"></i>
@@ -1405,10 +1444,12 @@ b{font-weight:700;color:var(--ink)}
 
   let ytPlayer;
   let isReady = false;
+  let userStarted = false;
 
   const toggleBtn = document.getElementById('music-toggle');
   const musicIcon = document.getElementById('music-icon');
   const volumeSlider = document.getElementById('music-volume');
+  const musicHint = document.getElementById('music-hint');
 
   function onYouTubeIframeAPIReady() {
     ytPlayer = new YT.Player('yt-player', {
@@ -1441,8 +1482,28 @@ b{font-weight:700;color:var(--ink)}
     musicIcon.classList.toggle('fa-pause', playing);
   }
 
+  function hideHint() {
+    if (!musicHint) return;
+    musicHint.style.opacity = '0';
+    setTimeout(() => musicHint.remove(), 400);
+  }
+
+  // 방문자의 첫 클릭(화면 어디든) 시 음소거 해제 + 재생 + 힌트 숨김
+  window.addEventListener('click', function startAudioOnce() {
+    if (isReady && !userStarted) {
+      ytPlayer.unMute();
+      ytPlayer.setVolume(Number(volumeSlider.value));
+      ytPlayer.playVideo();
+      userStarted = true;
+      updateIcon(true);
+      hideHint();
+    }
+    window.removeEventListener('click', startAudioOnce);
+  });
+
   // 재생/일시정지 버튼 (+ 처음 누르면 음소거 해제)
-  toggleBtn.addEventListener('click', function () {
+  toggleBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
     if (!isReady) return;
     const state = ytPlayer.getPlayerState();
     if (state === YT.PlayerState.PLAYING) {
@@ -1452,8 +1513,10 @@ b{font-weight:700;color:var(--ink)}
       ytPlayer.unMute();
       ytPlayer.setVolume(Number(volumeSlider.value));
       ytPlayer.playVideo();
+      userStarted = true;
       updateIcon(true);
     }
+    hideHint();
   });
 
   // 볼륨 슬라이더
@@ -1464,9 +1527,12 @@ b{font-weight:700;color:var(--ink)}
         ytPlayer.mute();
       } else {
         ytPlayer.unMute();
+        userStarted = true;
       }
     }
+    hideHint();
   });
+  volumeSlider.addEventListener('click', e => e.stopPropagation());
 </script>
 
 </body>
